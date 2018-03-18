@@ -33,6 +33,21 @@ fun appleAndOrange(houseX0 : Int, houseX1 : Int, appleTreeX : Int, orangeTreeX :
     return res
 }
 
+fun kangaroo(k1x : Int, k1j : Int, k2x : Int, k2j : Int) : String
+{
+    var kangaroo1 = k1x
+    var kangaroo2 = k2x
+
+    while(kangaroo1 < kangaroo2)
+    {
+        kangaroo1+=k1j
+        kangaroo2+=k2j
+        if(kangaroo1==kangaroo2)
+            return "YES"
+    }
+    return "NO"
+}
+
 fun implementationStdin()
 {
 
@@ -50,8 +65,13 @@ fun implementationStdin()
     readLine()
     val appleFallDistance = readLine()!!.split(' ').map{it.toInt()}
     val orangeFallDistance = readLine()!!.split(' ').map{it.toInt()}
-    val res = appleAndOrange(houseX0,houseX1,appleTreeX,orangeTreeX,appleFallDistance,orangeFallDistance)
-    println(res.joinToString("\n"))
+    val appleAndOrangeRes = appleAndOrange(houseX0,houseX1,appleTreeX,orangeTreeX,appleFallDistance,orangeFallDistance)
+    println(appleAndOrangeRes.joinToString("\n"))
+
+    //kangaroo
+    val inputs = readLine()!!.split(' ').map{it.toInt()}
+    val kangarooRes = kangaroo(inputs[0],inputs[1],inputs[2],inputs[3])
+    println(kangarooRes)
 }
 
 fun implementation()
@@ -62,4 +82,7 @@ fun implementation()
     // apple and orange
     val orangeRes = appleAndOrange(7,11,5,15, arrayListOf(-2,2,1), arrayListOf(5,-6))
     println(orangeRes.joinToString("\n"))
+    // kangaroo
+    val kangarooRes = kangaroo(0,3,4,2)
+    println(kangarooRes)
 }
