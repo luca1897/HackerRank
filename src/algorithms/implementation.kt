@@ -1,5 +1,7 @@
 package algorithms
 
+import java.util.*
+
 fun gradingStudents(grades : IntArray) : IntArray
 {
     val newGrades = IntArray(grades.size)
@@ -48,6 +50,63 @@ fun kangaroo(k1x : Int, k1j : Int, k2x : Int, k2j : Int) : String
     return "NO"
 }
 
+fun betweenTwoSets(a : LongArray, b : LongArray) : Int {
+    var mcma = fmcm(a)
+    var mcdb = fMCD(b)
+    var count = 0
+    var i = mcma
+    var j = 2
+    while (i <= mcdb) {
+        if (mcdb % i == 0L) {
+            count++
+        }
+        i = mcma * j
+        j++
+    }
+    return count
+}
+
+fun fmcm(a : LongArray) : Long {
+    var x = a[0]
+    for(i in 1 until a.size)
+    {
+        x = mcm(x,a[i])
+    }
+    return x
+}
+
+fun fMCD(a : LongArray) : Long {
+    var x = a[0]
+    for(i in 1 until a.size)
+    {
+        x = MCD(x,a[i])
+    }
+    return x
+}
+
+fun mcm(a: Long, b: Long) : Long
+{
+    if(MCD(a,b)>0)
+        return (a*b)/MCD(a,b)
+    else
+        return 0
+}
+
+fun MCD(a: Long, b: Long)
+        : Long {
+    var a = a
+    var b = b
+    var r: Long
+    while (b != 0L)
+    {
+        r = a % b
+        a = b
+        b = r
+    }
+    return a
+}
+
+
 fun implementationStdin()
 {
 
@@ -72,6 +131,17 @@ fun implementationStdin()
     val inputs = readLine()!!.split(' ').map{it.toInt()}
     val kangarooRes = kangaroo(inputs[0],inputs[1],inputs[2],inputs[3])
     println(kangarooRes)
+
+    //betweenTwoSets
+    val scan = Scanner(System.`in`)
+    val nm = scan.nextLine().split(" ")
+    val n = nm[0].trim().toInt()
+    val m = nm[1].trim().toInt()
+    val a = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
+    val b = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
+    val betweenTwoSetsRes = betweenTwoSets(a, b)
+    println(betweenTwoSetsRes)
+
 }
 
 fun implementation()
@@ -85,4 +155,7 @@ fun implementation()
     // kangaroo
     val kangarooRes = kangaroo(0,3,4,2)
     println(kangarooRes)
+    // between Two Sets
+    val betweenTwoSetsRes = betweenTwoSets(longArrayOf(2,4), longArrayOf(16,32,96))
+    println(betweenTwoSetsRes)
 }
