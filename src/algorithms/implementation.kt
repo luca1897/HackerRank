@@ -106,9 +106,61 @@ fun MCD(a: Long, b: Long)
     return a
 }
 
+fun breakingTheRecords(g : IntArray) : IntArray
+{
+    var res = IntArray(2)
+    var min = g[0]
+    var max = g[0]
+    for(i in 1 until g.size)
+    {
+        if(g[i] < min) {
+            min = g[i]
+            res[1]++
+        }
+        else if(g[i] > max) {
+            max = g[i]
+            res[0]++
+        }
+    }
+
+    return res
+}
+
+fun birthdayChocolate(c : IntArray, numSquares : Int, integerSum : Int) : Int
+{
+    var res = 0
+    if(numSquares == c.size && c[0] == integerSum)
+        return 1
+    for (i in 0..c.size - numSquares)
+    {
+        val sum = c.slice(i until i+numSquares).sum()
+        if(sum == integerSum)
+            res++
+    }
+
+    return res
+}
+
+fun divisibleSumPairs(ar: IntArray, k: Int): Int {
+    var res = 0
+    for(i in 0 until ar.size)
+    {
+        for(j in i until ar.size)
+        {
+            if(i == j)
+                continue
+            if(i > j)
+                continue
+            if((ar[i] + ar[j]) % k == 0)
+                res++
+        }
+    }
+    return res
+}
 
 fun implementationStdin()
 {
+    val scan = Scanner(System.`in`)
 
     // grading students
     val numGrades = readLine()!!.toInt()
@@ -127,22 +179,44 @@ fun implementationStdin()
     val appleAndOrangeRes = appleAndOrange(houseX0,houseX1,appleTreeX,orangeTreeX,appleFallDistance,orangeFallDistance)
     println(appleAndOrangeRes.joinToString("\n"))
 
-    //kangaroo
+    // kangaroo
     val inputs = readLine()!!.split(' ').map{it.toInt()}
     val kangarooRes = kangaroo(inputs[0],inputs[1],inputs[2],inputs[3])
     println(kangarooRes)
 
-    //betweenTwoSets
-    val scan = Scanner(System.`in`)
+    // betweenTwoSets
     val nm = scan.nextLine().split(" ")
-    val n = nm[0].trim().toInt()
-    val m = nm[1].trim().toInt()
+    var n = nm[0].trim().toInt()
+    var m = nm[1].trim().toInt()
     val a = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
     val b = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
     val betweenTwoSetsRes = betweenTwoSets(a, b)
     println(betweenTwoSetsRes)
 
+    // breaking the records
+    n = scan.nextLine().trim().toInt()
+    val score = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
+    var result = breakingTheRecords(score)
+    println(result.joinToString(" "))
+
+    // birthday chocolate
+    n = scan.nextLine().trim().toInt()
+    val c = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
+    val d = scan.nextInt()
+    m = scan.nextInt()
+    val birthdayChocolateRes = birthdayChocolate(c,m,d)
+    println(birthdayChocolateRes)
+
+    // divisible sum pairs
+    n = scan.nextInt()
+    val k = scan.nextInt()
+    scan.nextLine()
+    val ar = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
+    val divisibleSumPairsRes = divisibleSumPairs(ar,k)
+    println(divisibleSumPairsRes)
 }
+
+
 
 fun implementation()
 {
@@ -158,4 +232,15 @@ fun implementation()
     // between Two Sets
     val betweenTwoSetsRes = betweenTwoSets(longArrayOf(2,4), longArrayOf(16,32,96))
     println(betweenTwoSetsRes)
+    // breaking the records
+    val breakingTheRecordsRes = breakingTheRecords(intArrayOf(10,5,20,20,4,5,2,25,1))
+    println(breakingTheRecordsRes.joinToString(" - "))
+    // birthday chocolate
+    val birthdayChocolateRes = birthdayChocolate(intArrayOf(4,1,2,3,4,4,2,2,3,4),2,4)
+    println(birthdayChocolateRes)
+    // divisible sum pairs
+    val divisibleSumPairsRes = divisibleSumPairs(intArrayOf(1,3,2,6,1,2),3)
+    println(divisibleSumPairsRes)
 }
+
+
