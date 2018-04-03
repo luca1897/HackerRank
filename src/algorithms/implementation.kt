@@ -1,6 +1,7 @@
 package algorithms
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun gradingStudents(grades : IntArray) : IntArray
 {
@@ -158,6 +159,61 @@ fun divisibleSumPairs(ar: IntArray, k: Int): Int {
     return res
 }
 
+fun migratoryBirds(li : ArrayList<Int>) : Int
+{
+    var t = 0
+    var cnt = 0
+
+    for(i in 1..5)
+    {
+        var c = li.filter { it == i }.size
+        if(c > cnt)
+        {
+            cnt = c
+            t = i
+        }
+    }
+
+    return t
+}
+
+fun dayOfTheProgrammer(y : Int) : String
+{
+    var day = "26"
+    if(y > 1918)
+        day = if(isLeapGreg(y)) "12" else "13"
+    else if (y <= 1917)
+        day = if(isLeapGiul(y)) "12" else "13"
+    return "$day.09.$y"
+}
+
+fun isLeapGreg(y : Int) : Boolean
+{
+    return (y % 400 == 0 || (y % 100 != 0 && y % 4 == 0))
+}
+
+fun isLeapGiul(y : Int) : Boolean
+{
+    return y % 4 == 0
+}
+
+fun bonAppetit(n: Int, k: Int, costs: IntArray, ch: Int): String {
+    if(k==0)
+        return "Bon Appetit"
+    var totalCostShared = 0
+    for (i in 0 until costs.size)
+    {
+        if(i!=k)
+            totalCostShared+=costs[i]
+    }
+    if(totalCostShared/2 == ch)
+        return "Bon Appetit"
+    else
+        return (ch - (totalCostShared/2)).toString()
+}
+
+
+
 fun implementationStdin()
 {
     val scan = Scanner(System.`in`)
@@ -241,6 +297,14 @@ fun implementation()
     // divisible sum pairs
     val divisibleSumPairsRes = divisibleSumPairs(intArrayOf(1,3,2,6,1,2),3)
     println(divisibleSumPairsRes)
+    // migratory birds
+    val migratoryBirdsRes = migratoryBirds(arrayListOf(1,4,4,4,5,3))
+    println(migratoryBirdsRes)
+    // day of the programmer
+    val dayOfTheProgrammerRes = dayOfTheProgrammer(1800)
+    println(dayOfTheProgrammerRes)
+    val bonAppetitRes = bonAppetit(4,1, intArrayOf(3,10,2,9),12)
+    println(bonAppetitRes)
 }
 
 
