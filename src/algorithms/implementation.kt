@@ -212,66 +212,35 @@ fun bonAppetit(n: Int, k: Int, costs: IntArray, ch: Int): String {
         return (ch - (totalCostShared/2)).toString()
 }
 
-
-
-fun implementationStdin()
-{
-    val scan = Scanner(System.`in`)
-
-    // grading students
-    val numGrades = readLine()!!.toInt()
-    val grades = IntArray(numGrades)
-    for (i in 0 until numGrades)
-        grades[i] = readLine()!!.toInt()
-    val newGrades = gradingStudents(grades)
-    println(newGrades.joinToString("\n"))
-
-    // apple and orange
-    val (houseX0,houseX1) = readLine()!!.split(' ').map{it.toInt()}
-    val (appleTreeX,orangeTreeX) = readLine()!!.split(' ').map{it.toInt()}
-    readLine()
-    val appleFallDistance = readLine()!!.split(' ').map{it.toInt()}
-    val orangeFallDistance = readLine()!!.split(' ').map{it.toInt()}
-    val appleAndOrangeRes = appleAndOrange(houseX0,houseX1,appleTreeX,orangeTreeX,appleFallDistance,orangeFallDistance)
-    println(appleAndOrangeRes.joinToString("\n"))
-
-    // kangaroo
-    val inputs = readLine()!!.split(' ').map{it.toInt()}
-    val kangarooRes = kangaroo(inputs[0],inputs[1],inputs[2],inputs[3])
-    println(kangarooRes)
-
-    // betweenTwoSets
-    val nm = scan.nextLine().split(" ")
-    var n = nm[0].trim().toInt()
-    var m = nm[1].trim().toInt()
-    val a = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
-    val b = scan.nextLine().split(" ").map{ it.trim().toLong() }.toLongArray()
-    val betweenTwoSetsRes = betweenTwoSets(a, b)
-    println(betweenTwoSetsRes)
-
-    // breaking the records
-    n = scan.nextLine().trim().toInt()
-    val score = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
-    var result = breakingTheRecords(score)
-    println(result.joinToString(" "))
-
-    // birthday chocolate
-    n = scan.nextLine().trim().toInt()
-    val c = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
-    val d = scan.nextInt()
-    m = scan.nextInt()
-    val birthdayChocolateRes = birthdayChocolate(c,m,d)
-    println(birthdayChocolateRes)
-
-    // divisible sum pairs
-    n = scan.nextInt()
-    val k = scan.nextInt()
-    scan.nextLine()
-    val ar = scan.nextLine().split(" ").map{ it.trim().toInt() }.toIntArray()
-    val divisibleSumPairsRes = divisibleSumPairs(ar,k)
-    println(divisibleSumPairsRes)
+fun sockMerchant(socks: IntArray): Int {
+    var pairs = 0
+    val mutable: MutableMap<Int, MutableList<Int>> = socks.groupByTo(mutableMapOf()) { it }
+    for (m in mutable.keys)
+    {
+        if(mutable[m]!!.size >= 2)
+            pairs += mutable[m]!!.size / 2
+    }
+    return pairs
 }
 
+fun drawingBook(n: Int, p: Int): Int {
+    val fromS = p/2
+    val fromE = (n/2) - (p/2)
+    return Math.min(fromS,fromE)
+}
+
+fun countingValleys(steps : String) : Int
+{
+    var v = 0
+    var l = 0
+    for (step in steps)
+    {
+        l += if(step == 'U') +1 else -1
+        if(l==0 && step == 'U')
+            v++
+    }
+    return v
+}
 
 
 fun implementation()
@@ -305,6 +274,16 @@ fun implementation()
     println(dayOfTheProgrammerRes)
     val bonAppetitRes = bonAppetit(4,1, intArrayOf(3,10,2,9),12)
     println(bonAppetitRes)
+    val sockMerchantRes = sockMerchant(intArrayOf(10,20,20,10,10,30,50,10,20))
+    println(sockMerchantRes)
+    val drawingBookRes = drawingBook(12, 5)
+    println(drawingBookRes)
+    val countingValleysRes = countingValleys("UDDDUDUU")
+    println(countingValleysRes)
 }
+
+
+
+
 
 
