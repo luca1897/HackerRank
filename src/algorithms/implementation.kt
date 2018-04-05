@@ -2,6 +2,8 @@ package algorithms
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.math.sqrt
 
 fun gradingStudents(grades : IntArray) : IntArray
 {
@@ -242,6 +244,148 @@ fun countingValleys(steps : String) : Int
     return v
 }
 
+fun electronicShop(s: Int, kb: IntArray, db: IntArray): Int {
+    var res = -1
+    for (k in kb)
+    {
+        for(d in db)
+        {
+            if(k+d in (res + 1)..s)
+                res = k+d
+        }
+    }
+    return res
+}
+
+fun catAndMouse(x: Int, y: Int, z: Int): String {
+    return if (Math.abs(z - x) < Math.abs(z - y))
+        "Cat A"
+    else if (Math.abs(z - x) > Math.abs(z - y))
+        "Cat B"
+    else
+        "Mouse C"
+}
+
+fun magicSquareForming(magicSquareToSolve: Array<IntArray>): Int {
+    var mindiff = Integer.MAX_VALUE
+
+    val magicSquares = arrayOf(
+            arrayOf(
+                    intArrayOf(8, 1, 6),
+                    intArrayOf(3, 5, 7),
+                    intArrayOf(4, 9, 2)
+            ),
+            arrayOf(
+                    intArrayOf(6, 1, 8),
+                    intArrayOf(7, 5, 3),
+                    intArrayOf(2, 9, 4)
+            ),
+            arrayOf(
+                    intArrayOf(4, 9, 2),
+                    intArrayOf(3, 5, 7),
+                    intArrayOf(8, 1, 6)
+            ),
+            arrayOf(
+                    intArrayOf(2, 9, 4),
+                    intArrayOf(7, 5, 3),
+                    intArrayOf(6, 1, 8)
+            ),
+            arrayOf(
+                    intArrayOf(8, 3, 4),
+                    intArrayOf(1, 5, 9),
+                    intArrayOf(6, 7, 2)
+            ),
+            arrayOf(
+                    intArrayOf(4, 3, 8),
+                    intArrayOf(9, 5, 1),
+                    intArrayOf(2, 7, 6)
+            ),
+            arrayOf(
+                    intArrayOf(6, 7, 2),
+                    intArrayOf(1, 5, 9),
+                    intArrayOf(8, 3, 4)
+            ),
+            arrayOf(
+                    intArrayOf(2, 7, 6),
+                    intArrayOf(9, 5, 1),
+                    intArrayOf(4, 3, 8)
+            )
+    )
+
+    for (magicSquare in magicSquares)
+    {
+        var tmpdiff = 0
+        for(row in 0 until magicSquare.size)
+        {
+            for(col in 0 until magicSquare.size)
+            {
+                tmpdiff += Math.abs(magicSquareToSolve[row][col] - magicSquare[row][col])
+            }
+        }
+        if(mindiff > tmpdiff)
+            mindiff = tmpdiff
+    }
+
+    return mindiff
+}
+
+fun pickingNumbers(ar: IntArray): Int {
+    var hmap = HashMap<Int,Int>()
+    for(i in 0 until ar.size)
+    {
+        if(hmap.containsKey(ar[i]))
+            continue
+        var cnt = 0
+        for(j in 0 until ar.size)
+        {
+            if(ar[i] == ar[j]) {
+                cnt = Math.max(cnt, ar.filter { it == ar[i] }.size)
+            }
+            else if(Math.abs(ar[i] - ar[j]) <= 1)
+            {
+                cnt = Math.max(cnt,ar.filter { it == ar[i] }.size + ar.filter { it == ar[j] }.size)
+            }
+        }
+        hmap.put(ar[i],cnt)
+    }
+    var max = hmap.values.max()!!
+    return max
+}
+
+fun climbingTheLeaderboard(leaderboard: IntArray, levelPoints: IntArray): IntArray {
+    var aliceRanking = IntArray(levelPoints.size)
+    var ll = leaderboard.distinct().toIntArray()
+    ll.sort()
+    var lastIndex = 0
+    for(lp in 0 until levelPoints.size)
+    {
+        var f = false
+        for(i in lastIndex until ll.size)
+        {
+            if(ll[i] > levelPoints[lp]) {
+                aliceRanking[lp] = ll.size - i + 1
+                f = true
+                lastIndex = i
+                break
+            }
+
+        }
+        if(!f)
+            aliceRanking[lp] = 1
+    }
+    return aliceRanking
+}
+
+fun stringToIntArray(s : String) : IntArray
+{
+    return s.split(" ").map{ it.trim().toInt() }.toIntArray()
+}
+
+fun stringToLongArray(s : String) : LongArray
+{
+    return s.split(" ").map{ it.trim().toLong() }.toLongArray()
+}
+
 
 fun implementation()
 {
@@ -272,15 +416,38 @@ fun implementation()
     // day of the programmer
     val dayOfTheProgrammerRes = dayOfTheProgrammer(1800)
     println(dayOfTheProgrammerRes)
+    // bon appetit
     val bonAppetitRes = bonAppetit(4,1, intArrayOf(3,10,2,9),12)
     println(bonAppetitRes)
+    // sock merchant
     val sockMerchantRes = sockMerchant(intArrayOf(10,20,20,10,10,30,50,10,20))
     println(sockMerchantRes)
+    // drawing book
     val drawingBookRes = drawingBook(12, 5)
     println(drawingBookRes)
+    // counting valleys
     val countingValleysRes = countingValleys("UDDDUDUU")
     println(countingValleysRes)
+    // electronic shop
+    val electronicShopRes = electronicShop(10, intArrayOf(3,1), intArrayOf(5,2,8))
+    println(electronicShopRes)
+    // cat and mouse
+    val catAndMouseRes = catAndMouse(0,1,2)
+    println(catAndMouseRes)
+    // magic square
+    val magicSquareToSolve = arrayOf(intArrayOf(4,8,2), intArrayOf(4,5,7), intArrayOf(6,1,6))
+    val magicSquareRes = magicSquareForming(magicSquareToSolve)
+    println(magicSquareRes)
+    // picking Numbers
+    val pickingNumbersRes = pickingNumbers(intArrayOf(4,97,5,97,97,4,97,4,97,97,97,97,4,4,5,5,97,5,97,99,4,97,5,97,97,97,5,5,97,4,5,97,97,5,97,4,97,5,4,4,97,5,5,5,4,97,97,4,97,5,4,4,97,97,97,5,5,97,4,97,97,5,4,97,97,4,97,97,97,5,4,4,97,4,4,97,5,97,97,97,97,4,97,5,97,5,4,97,4,5,97,97,5,97,5,97,5,97,97,97))
+    println(pickingNumbersRes)
+    // climbing the leaderboard
+    val climbingTheLeaderboard = climbingTheLeaderboard(stringToIntArray("100 100 50 40 40 20 10"), stringToIntArray("5 25 50 120"))
+    println(climbingTheLeaderboard.joinToString("\n"))
 }
+
+
+
 
 
 
