@@ -4,6 +4,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.math.sqrt
+import com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil.close
+import com.sun.xml.internal.ws.streaming.XMLStreamReaderUtil.close
+
+
+
+
 
 fun gradingStudents(grades : IntArray) : IntArray
 {
@@ -376,16 +382,84 @@ fun climbingTheLeaderboard(leaderboard: IntArray, levelPoints: IntArray): IntArr
     return aliceRanking
 }
 
-fun stringToIntArray(s : String) : IntArray
+fun hurdleRace(h : IntArray, k : Int) : Int
 {
-    return s.split(" ").map{ it.trim().toInt() }.toIntArray()
+    var hf = h.max()!! - k
+    return Math.max(0,hf)
 }
 
-fun stringToLongArray(s : String) : LongArray
+fun designerPdfViewer(h : IntArray, words : String) : Int
 {
-    return s.split(" ").map{ it.trim().toLong() }.toLongArray()
+    return words.map { h[it.toInt() - 97]}.max()!! * words.count()
 }
 
+fun utopianTree(cycles : IntArray) : IntArray
+{
+    val h = IntArray(cycles.size)
+    for(i in 0 until cycles.size)
+    {
+        val cycle = cycles[i]
+        h[i] = 1
+        if(cycle == 0) {
+            continue
+        }
+
+        for (j in 1 .. cycle)
+        {
+            if(j % 2 == 0)
+                h[i] += 1
+            else
+                h[i] *= 2
+        }
+    }
+    return h
+}
+
+fun angryProfessor(arrivalTimes: IntArray, threshold : Int) : String {
+    return if (arrivalTimes.filter { it <= 0 }.count() > threshold)
+        "NO"
+    else
+        "YES"
+}
+
+fun beautifulDays(i : Int,j : Int, k : Int) : Int
+{
+    var res = 0
+
+    for(d in i .. j)
+    {
+        val reversed = d.toString().reversed().toInt()
+        if(Math.abs(d-reversed)%k == 0)
+            res++
+    }
+
+    return res
+}
+
+fun viralAdvertising(n : Int) : Int
+{
+    var c = 2
+    var r = 6
+    for(i in 1 until n)
+    {
+        c += Math.floor(r / 2.0).toInt()
+        r = Math.floor(r / 2.0).toInt() * 3
+    }
+    return c
+}
+
+fun saveThePrisoner(numPrisoners : Int, numSweets : Int, startChair : Int) : Int {
+    return ((startChair + numSweets - 2) % numPrisoners) + 1
+}
+
+fun circularArrayRotation(k: Int, q: IntArray, ar: IntArray): IntArray {
+    val res = IntArray(q.size)
+    for(i in 0 until q.size)
+    {
+        res[i] = ar[Math.floorMod((q[i]-k),ar.size)]
+    }
+    return res
+}
 
 fun implementation()
 {
@@ -444,13 +518,43 @@ fun implementation()
     // climbing the leaderboard
     val climbingTheLeaderboard = climbingTheLeaderboard(stringToIntArray("100 100 50 40 40 20 10"), stringToIntArray("5 25 50 120"))
     println(climbingTheLeaderboard.joinToString("\n"))
+    // Hurdle Race
+    val hurdleRaceRes = hurdleRace(stringToIntArray("1 6 3 5 2"),4)
+    println(hurdleRaceRes)
+    // Designer Pdf Viewer
+    val pdfViewerRes = designerPdfViewer(stringToIntArray("1 3 1 3 1 4 1 3 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5"),"abc")
+    println(pdfViewerRes)
+    // Utopian Tree
+    val utopianTreeRes = utopianTree(intArrayOf(0,1,4))
+    println(utopianTreeRes.joinToString("\n"))
+    // angry professor
+    val angryProfessorRes = angryProfessor(stringToIntArray("-1 -3 4 2"),3)
+    println(angryProfessorRes)
+    // beautiful days
+    val beautifuldaysRes = beautifulDays(20,23,6)
+    println(beautifuldaysRes)
+    // viral advertising
+    val viralAdvertisingRes = viralAdvertising(5)
+    println(viralAdvertisingRes)
+    // save the prisoners
+    val saveThePrisonersRes = saveThePrisoner(4,6,2)
+    println(saveThePrisonersRes)
+    // Circular Array Rotation
+    val circularArrayRotationRes = circularArrayRotation(2, intArrayOf(0,1,2), intArrayOf(1,2,3))
+    println(circularArrayRotationRes.joinToString("\n"))
 }
 
 
 
+fun stringToIntArray(s : String) : IntArray
+{
+    return s.split(" ").map{ it.trim().toInt() }.toIntArray()
+}
 
-
-
+fun stringToLongArray(s : String) : LongArray
+{
+    return s.split(" ").map{ it.trim().toLong() }.toLongArray()
+}
 
 
 
